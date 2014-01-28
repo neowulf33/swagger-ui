@@ -19,7 +19,7 @@
   <script type="text/javascript">
     $(function () {
       window.swaggerUi = new SwaggerUi({
-      url: "http://petstore.swagger.wordnik.com/api/api-docs",
+      url: "http://localhost:8080/search/api-docs",
       dom_id: "swagger-ui-container",
       supportedSubmitMethods: ['get', 'post', 'put', 'delete'],
       onComplete: function(swaggerApi, swaggerUi){
@@ -31,6 +31,15 @@
       },
       docExpansion: "none"
     });
+	
+	$('#input_authorization').change(function() {
+	  var key = $('#input_authorization')[0].value;
+	  console.log("key: " + key);
+	  if(key && key.trim() != "") {
+	    console.log("added authorization " + key);
+	    window.authorizations.add("authorization", new BasicAuthorization(key));
+	  }
+	});
 
     $('#input_apiKey').change(function() {
       var key = $('#input_apiKey')[0].value;
@@ -39,7 +48,8 @@
         log("added key " + key);
         window.authorizations.add("key", new ApiKeyAuthorization("api_key", key, "query"));
       }
-    })
+    });
+	
     window.swaggerUi.load();
   });
 
@@ -60,6 +70,7 @@
       </div>
       <div class='input'><input placeholder="http://example.com/api" id="input_baseUrl" name="baseUrl" type="text"/></div>
       <div class='input'><input placeholder="api_key" id="input_apiKey" name="apiKey" type="text"/></div>
+	  <div class='input'><input placeholder="authorization" id="input_authorization" name="authorization" type="text"/></div>
       <div class='input'><a id="explore" href="#">Explore</a></div>
     </form>
   </div>
